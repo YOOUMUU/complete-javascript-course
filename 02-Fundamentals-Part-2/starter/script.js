@@ -25,3 +25,19 @@ const applejuice = fruitProcesser(5, 0);
 console.log(applejuice);
 console.log(fruitProcesser(5, 0));
 */
+
+/*
+// Function declaration 函数声明
+function calcAge1(birthYear) {
+  return 2037 - birthYear;
+}
+const age1 = calcAge1(1991);
+
+// Function expression 函数表达式
+const calcAge2 = function (birthYear) {
+  return 2037 - birthYear;
+};
+const age2 = calcAge2(1991);
+
+console.log(age1, age2);
+*/
