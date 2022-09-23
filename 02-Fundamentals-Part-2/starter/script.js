@@ -76,3 +76,25 @@ function fruitProcesser(apples, oranges) {
 
 console.log(fruitProcesser(2, 3));
 */
+/*
+const calcAge = function ()birthYear {
+  return 2037 - birthYear;
+};
+
+const yearsUntilRetirement = function (birthYear, firstName) {
+  const retirement = 65 - calcAge(birthYear);
+  if (retirement > 0) {
+    return retirement;
+  } else {
+    return -1;
+  }
+  //   if (retirement > 0) {
+  //     return `${firstName} retires in ${retirement} years`;
+  //   } else {
+  //     return `${firstName} already retired.`;
+  //   }
+};
+
+console.log(yearsUntilRetirement(1991, "Jonas"));
+console.log(yearsUntilRetirement(1970, "Mike"));
+*/

@@ -45,3 +45,23 @@ const describePopulation = function (country, population) {
 };
 console.log(describePopulation("China", 1441));
 */
+
+/*
+const calcAverage = (a, b, c) => (a + b + c) / 3;
+let avgDolphins = calcAverage(44, 23, 71);
+let avgKoalas = calcAverage(65, 54, 49);
+const checkWinner = function (avgDolphins, avgKoalas) {
+  if (avgDolphins >= 2 * avgKoalas) {
+    return `Dolhins win(${avgDolphins} vs. ${avgKoalas})`;
+  } else if (avgKoalas >= 2 * avgDolphins) {
+    return `Koalas win(${avgKoalas} vs. ${avgDolphins})`;
+  } else {
+    return `No team wins!`;
+  }
+};
+console.log(checkWinner(avgDolphins, avgKoalas));
+
+avgDolphins = calcAverage(85, 54, 41);
+avgKoalas = calcAverage(23, 34, 27);
+console.log(checkWinner(avgDolphins, avgKoalas));
+*/
