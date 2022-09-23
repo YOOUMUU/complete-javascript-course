@@ -65,3 +65,18 @@ avgDolphins = calcAverage(85, 54, 41);
 avgKoalas = calcAverage(23, 34, 27);
 console.log(checkWinner(avgDolphins, avgKoalas));
 */
+/*
+const percentageOfWorld1 = function (population) {
+  return (population / 7900) * 100;
+};
+
+const populations = [140, 56, 125, 77];
+console.log(populations);
+const percentages = [
+  percentageOfWorld1(populations[0]),
+  percentageOfWorld1(populations[1]),
+  percentageOfWorld1(populations[2]),
+  percentageOfWorld1(populations[populations.length - 1]),
+];
+console.log(percentages);
+*/
