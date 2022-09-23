@@ -80,3 +80,17 @@ const percentages = [
 ];
 console.log(percentages);
 */
+/*
+const neighbours = ["Japan", "Russia", "India", "Karia"];
+console.log(neighbours);
+
+neighbours.push("Utopia");
+neighbours.pop();
+
+if (!neighbours.includes("Germany")) {
+    console.log("Probably not a central European country :D");
+} 
+
+neighbours[neighbours.indexOf("Russia")] = "Sweden";
+console.log(neighbours);
+*/
