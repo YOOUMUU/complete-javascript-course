@@ -127,3 +127,29 @@ const myCountry = {
   neighbours: [Japan, Rusia, India],
 };
 */
+
+/*
+const myCountry = {
+  country: "China",
+  capital: "Beijing",
+  language: "chinese",
+  population: 1440,
+  neighbours: ["Japan", "Rusia", "India"],
+};
+
+console.log(
+  `${myCountry.country} has ${myCountry.population} ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries and a capital called ${myCountry.capital}. `
+);
+
+myCountry.population += 2;
+
+console.log(
+  `${myCountry.country} has ${myCountry.population} ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries and a capital called ${myCountry.capital}. `
+);
+
+myCountry["population"] -= 2;
+
+console.log(
+  `${myCountry.country} has ${myCountry.population} ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries and a capital called ${myCountry.capital}. `
+);
+*/
