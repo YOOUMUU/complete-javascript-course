@@ -117,3 +117,13 @@ console.log(bills);
 console.log(tips);
 console.log(total);
 */
+
+/*
+const myCountry = {
+  country: "China",
+  capital: "Beijing",
+  language: "chinese",
+  population: 1440,
+  neighbours: [Japan, Rusia, India],
+};
+*/
