@@ -249,3 +249,50 @@ for (let countries = 0; countries < listOfNeighbours.length; countries++) {
   }
 }
 */
+
+/*
+const populations = [140, 56, 125, 77];
+const percentages2 = [];
+const percentages3 = [];
+
+for (let i = 0; i < populations.length; i++) {
+  percentages2.push((populations[i] / 7900) * 100);
+}
+
+let i = 0;
+while (i < populations.length) {
+  percentages3.push((populations[i] / 7900) * 100);
+  i++;
+}
+
+console.log(percentages2);
+console.log(percentages3);
+*/
+
+/*
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips = [];
+const totals = [];
+
+const calcTip = function (bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+};
+
+for (let i = 0; i < bills.length; i++) {
+  tips.push(calcTip(bills[i]));
+  totals.push(tips[i] + bills[i]);
+}
+console.log(tips, totals);
+
+const calcAverage = function (arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    // sum = sum + arr[i];
+    sum += arr[i];
+  }
+  return sum / arr.length;
+};
+
+console.log(calcAverage([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+console.log(calcAverage(totals));
+*/
