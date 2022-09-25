@@ -153,3 +153,26 @@ console.log(
   `${myCountry.country} has ${myCountry.population} ${myCountry.language}-speaking people, ${myCountry.neighbours.length} neighbouring countries and a capital called ${myCountry.capital}. `
 );
 */
+/*
+const myCountry = {
+  country: "China",
+  capital: "Beijing",
+  language: "chinese",
+  population: 1440,
+  neighbours: ["Japan", "Rusia", "India"],
+
+  checkIsland: function () {
+    this.isIsland = this.neighbours.length === 0 ? true : false;
+  },
+
+  describe: function () {
+    console.log(
+      `${this.country} has ${this.population} ${this.language}-speaking people, ${this.neighbours.length} neighbouring countries and a capital called ${this.capital}.`
+    );
+  },
+};
+
+myCountry.describe();
+myCountry.checkIsland();
+console.log(myCountry.isIsland);
+*/
