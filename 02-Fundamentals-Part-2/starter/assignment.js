@@ -235,3 +235,17 @@ for (let i = 0; i < populations.length; i++) {
 
 console.log(percentages2);
 */
+
+/*
+const listOfNeighbours = [
+  ["Canada", "Mexico"],
+  ["Spain"],
+  ["Norway", "Sweden", "Russia"],
+];
+
+for (let countries = 0; countries < listOfNeighbours.length; countries++) {
+  for (let i = 0; i < listOfNeighbours[countries].length; i++) {
+    console.log(`Neighbour: ${listOfNeighbours[countries][i]}`);
+  }
+}
+*/
