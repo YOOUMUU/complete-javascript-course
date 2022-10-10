@@ -60,6 +60,42 @@ const restaurant = {
   },
 };
 
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+console.log(ordersSet);
+
+console.log(new Set('Jonas'));
+
+console.log(ordersSet.size);
+console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has('Bread'));
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet);
+ordersSet.delete('Risotto');
+// ordersSet.clear()
+console.log(ordersSet);
+console.log(ordersSet[0]); // Set has NO index, get undefined
+
+for (const order of ordersSet) console.log(order);
+
+// Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+// const staffUnique = new Set(staff);
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+
+console.log(new Set('1234567890').size);
+
 /*
 // Property NAMES
 const properties = Object.keys(openingHours);
