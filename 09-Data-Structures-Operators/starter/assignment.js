@@ -240,3 +240,72 @@ for (const [min, event] of gameEvents) {
   console.log(`[${half} HALF] ${min}: ${event}`);
 }
 */
+
+/*
+// Challenge #4
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+/////////////////////////////////////////////////////////////////
+// My answer:
+// document.querySelector('button').addEventListener('click', function () {
+//   const input = document.querySelector('textarea').value;
+//   const inputArr = String(input).split('\n');
+//   for (const [index, item] of inputArr.entries()) {
+//     const lowerCaseItem = item.trim().toLowerCase();
+//     const indexOfDash = lowerCaseItem.indexOf('_');
+//     const newItem =
+//       lowerCaseItem.slice(0, indexOfDash) +
+//       lowerCaseItem[indexOfDash + 1].toUpperCase() +
+//       lowerCaseItem.slice(indexOfDash + 2);
+//     console.log(newItem.padEnd(20)  + '✅'.repeat(index + 1));
+//   }
+// });
+
+// Teacher:
+document.querySelector('button').addEventListener('click', function () {
+  const input = document.querySelector('textarea').value;
+  const inputArr = input.split('\n');
+
+  for (const [index, item] of inputArr.entries()) {
+    // const lowerCaseItem = item.trim().toLowerCase();
+    // const indexOfDash = lowerCaseItem.indexOf('_');
+    // const newItem =
+    //   lowerCaseItem.slice(0, indexOfDash) +
+    //   lowerCaseItem[indexOfDash + 1].toUpperCase() +
+    //   lowerCaseItem.slice(indexOfDash + 2);
+    const [first, second] = item.toLowerCase().trim().split('_');
+    const output = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}`;
+
+    console.log(output.padEnd(20) + '✅'.repeat(index + 1));
+  }
+});
+*/
+
+/*
+// String Methods Practive
+/////////////////
+// My answer:
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+const newFlights = flights.split('+');
+const getCode = str => str.slice(0, 3).toUpperCase();
+for (const flight of newFlights) {
+  // Teacher's solution: const [type, from, to, time] = flight.split(';');
+  const flightArr = flight.split(';');
+  const statement = flightArr[0].slice(1).replace('_', ' ');
+  // const from = flightArr[1].slice(0, 3).toUpperCase();
+  // const to = flightArr[2].slice(0, 3).toUpperCase();
+  const from = getCode(flightArr[1]);
+  const to = getCode(flightArr[2]);
+  const time = flightArr[flightArr.length - 1].replace(':', 'h');
+  const output = `${
+    statement.startsWith('Delayed') ? '🔴' : ''
+  } ${statement} from ${from} to ${to} (${time})`.padStart(45);
+  console.log(output);
+}
+*/
