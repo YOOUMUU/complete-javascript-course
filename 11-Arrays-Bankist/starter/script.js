@@ -61,16 +61,243 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+///////////////////////////////////////////////
+// 147 Creating DOM Elements
+
+const displayMovement = function (movements) {
+  containerMovements.innerHTML = '';
+
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>`;
+
+    containerMovements.insertAdjacentHTML('beforeend', html);
+  });
+};
+displayMovement(account1.movements);
+
+const clacDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+clacDisplayBalance(account1.movements);
+
+const creatUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+creatUsernames(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/*
+/////////////////////////////////////////////////
+// Simple Array Methods
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+// SLICE
+console.log(arr.slice(2));
+console.log(arr.slice(2, 4));
+console.log(arr.slice(-2));
+console.log(arr.slice(1, -2));
+console.log(arr.slice());
+console.log([...arr]);
+
+// SPLICE 剪切
+console.log(arr.splice(1, 2)); // ['b', 'c']
+console.log(arr); // ['a', 'd', 'e']
+arr.splice(-1);
+console.log(arr); // ['a', 'd']
+
+// REVERSE
+arr = ['a', 'b', 'c', 'd', 'e'];
+const arr2 = ['j', 'i', 'h', 'g', 'f'];
+console.log(arr2.reverse()); // ['f', 'g', 'h', 'i', 'j']
+console.log(arr2); // ['f', 'g', 'h', 'i', 'j']
+
+// CONCAT
+const letters = arr.concat(arr2);
+console.log(letters);
+console.log([...arr, ...arr2]);
+
+// JOIN
+console.log(letters.join(' - '));
+*/
+
+/*
+//////////////////////////////////////////////
+// At Method
+const arr = [23, 11, 64];
+console.log(arr[0]);
+console.log(arr.at(0));
+
+// Getting last array element
+console.log(arr[arr.length - 1]);
+console.log(arr.slice(-1)[0]);
+console.log(arr.at(-1));
+
+console.log('jonas'.at(0));
+console.log('jonas'.at(-1));
+*/
+
+/*
+//////////////////////////////////////////////
+// Looping Arrays: forEach
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+for (const [i, movement] of movements.entries()) {
+  if (movement > 0) console.log(`Movement ${i + 1}: You deposited ${movement}`);
+  else console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+}
+
+console.log('--------------------------');
+
+movements.forEach(function (movement, index, array) {
+  if (movement > 0)
+    console.log(`Movement ${index + 1}: You deposited ${movement}`);
+  else console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movement)}`);
+});
+// 0: function(200)
+// 1: function(450)
+// 2: function(400)
+// ...
+*/
+
+/*
+///////////////////////////////////////////////
+// forEach with Maps and Sets
+
+// Map
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
 
-/////////////////////////////////////////////////
+// Set
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
+currenciesUnique.forEach(function (value, _, set) {
+  console.log(`${value}: ${value}`);
+});
+*/
+
+/*
+////////////////////////////////////////////////
+// The Map Method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map(function (mov) {
+  return mov * eurToUsd;
+});
+
+const movementsUSDarrow = movements.map(mov => mov * eurToUsd);
+
+console.log(movements);
+console.log(movementsUSD);
+console.log(movementsUSDarrow);
+
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+console.log(movementsUSDfor);
+
+const movementDescriptions = movements.map(
+  (mov, i, arr) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'depostted' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+
+console.log(movementDescriptions);
+*/
+
+/*
+//////////////////////////////////////////////////
+// Use map method to computing username
+
+const creatUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+
+// const user = 'Steven Thomas Williams'; // stw
+// const username = user
+//   .toLowerCase()
+//   .split(' ')
+//   .map(word => word[0])
+//   .join('');
+
+creatUsernames(accounts);
+console.log(accounts);
+*/
+
+/*
+////////////////////////////////////////////////////
+// The Filter Method
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+const withdrawal = movements.filter(mov => mov < 0);
+console.log(withdrawal);
+*/
+
+/*
+////////////////////////////////////////////////////
+// The Reduce Method
+
+// Accumulator is like a snowball
+const balance = movements.reduce(function (accumulator, cur, i, arr) {
+  return accumulator + cur;
+}, 0);
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+
+// Maximum value
+const max = movements.reduce((acc, cur) => {
+  if (acc > cur) return acc;
+  else return cur;
+}, movements[0]);
+console.log(max);
+*/
