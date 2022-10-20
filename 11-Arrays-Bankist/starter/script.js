@@ -64,10 +64,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 ///////////////////////////////////////////////
 // 147 Creating DOM Elements
 
-const displayMovement = function (movements) {
+const displayMovement = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -75,19 +77,36 @@ const displayMovement = function (movements) {
       <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov}€</div>
     </div>`;
 
-    containerMovements.insertAdjacentHTML('beforeend', html);
+    containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovement(account1.movements);
 
-const clacDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+const clacDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance} €`;
 };
-clacDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = acc.movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * (acc.interestRate / 100))
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int);
+  labelSumInterest.textContent = `${interest}€`;
+};
 
 const creatUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -99,6 +118,107 @@ const creatUsernames = function (accs) {
   });
 };
 creatUsernames(accounts);
+
+const updateUI = function (acc) {
+  displayMovement(acc.movements);
+  clacDisplayBalance(acc);
+  calcDisplaySummary(acc);
+};
+
+// Ecent handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and welcome messages
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // Clean input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  // console.log(amount, receiverAcc);
+  inputTransferAmount.value = inputTransferTo.value = '';
+  inputTransferTo.blur();
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    amount <= currentAccount.balance &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+
+    // UpdateUI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+  inputLoanAmount.blur();
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    // .indexOf(23) just element in array
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovement(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -125,13 +245,13 @@ console.log(arr.slice(1, -2));
 console.log(arr.slice());
 console.log([...arr]);
 
-// SPLICE 剪切
+// SPLICE 剪切 改变原来的array index howmuch
 console.log(arr.splice(1, 2)); // ['b', 'c']
 console.log(arr); // ['a', 'd', 'e']
 arr.splice(-1);
 console.log(arr); // ['a', 'd']
 
-// REVERSE
+// REVERSE 改变原来的array
 arr = ['a', 'b', 'c', 'd', 'e'];
 const arr2 = ['j', 'i', 'h', 'g', 'f'];
 console.log(arr2.reverse()); // ['f', 'g', 'h', 'i', 'j']
@@ -300,4 +420,213 @@ const max = movements.reduce((acc, cur) => {
   else return cur;
 }, movements[0]);
 console.log(max);
+*/
+
+/*
+//////////////////////////////////////////////////////////
+// The magic of chaining method
+
+const eurToUsd = 1.1;
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositsUSD);
+*/
+
+/*
+/////////////////////////////////////////////////////////
+// The find method
+const firstWithdrawal = movements.find(mov => mov < 0);
+
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+const accountForOf = function (accs) {
+  for (const acc of accs) {
+    if (acc.owner === 'Jessica Davis') return acc;
+  }
+};
+console.log(accountForOf(accounts));
+*/
+
+/*
+/////////////////////////////////////////////////////////////////
+// Some and Every
+
+// Equality
+console.log(movements);
+console.log(movements.includes(-130));
+
+// SOME: Condition
+console.log(movements.some(mov => mov === -130));
+
+const anyDeposits = movements.some(mov => mov > 5000);
+console.log(anyDeposits);
+
+// EVERY
+console.log(movements.every(mov => mov > 0));
+console.log(account4.movements.every(mov => mov > 0));
+
+// Seperate callback
+const depsit = mov => mov > 0;
+console.log(movements.some(depsit));
+console.log(movements.every(depsit));
+console.log(movements.filter(depsit));
+*/
+
+/*
+/////////////////////////////////////////////////////////////////
+// flat and flatMap
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat());
+console.log(arrDeep.flat(2)); // Second Level
+
+// flat
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
+
+// flatMap = map + flat
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
+*/
+
+/*
+///////////////////////////////////////////////////////////
+// Sorting Arrays
+// Strings
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort());
+console.log(owners);
+
+// Numbers
+console.log(movements);
+console.log(movements.sort()); // take everything to strings and sort
+
+// return < 0 , A, B (keep order)
+// return > 0 , B, A (switch order)
+movements.sort((a, b) => a - b);
+console.log(movements);
+movements.sort((a, b) => b - a);
+console.log(movements);
+*/
+
+/*
+//////////////////////////////////////////////////////
+// More ways of creating and filling arrays
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+// Emtry arrays + fill method
+const x = new Array(7);
+console.log(x);
+console.log(x.map(() => 5));
+
+// x.fill(5);
+x.fill(5, 3, 6);
+console.log(x);
+
+arr.fill(23, 2, 6);
+console.log(arr);
+
+// Arrary.from
+const arr2 = Array.from({ length: 7 }, () => 1);
+console.log(arr2);
+
+const arr3 = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(arr3);
+
+const arr4 = Array.from(
+  { length: 100 },
+  () => Math.trunc(Math.random() * 100) + 1
+);
+console.log(arr4);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value')
+  ).map(el => Number(el.textContent.replace('€', '')));
+  console.log(movementsUI);
+
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+});
+*/
+
+/*
+///////////////////////////////////////////////////////////
+// Array Methods Practice
+
+// 1.
+const bandDepositSum = accounts
+  .flatMap(mov => mov.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(bandDepositSum);
+
+// 2.
+const numDeposits1000 = accounts
+  .flatMap(mov => mov.movements)
+  // .filter(mov => mov >= 1000).length;
+  .reduce((sum, mov) => (mov >= 1000 ? sum + 1 : sum), 0);
+console.log(numDeposits1000);
+
+// Prefixed ++ oprator
+let a = 10;
+console.log(a++);
+console.log(a);
+console.log(++a);
+
+// 3.
+const { deposits, withdrawals } = accounts
+  .flatMap(mov => mov.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+console.log(deposits, withdrawals);
+
+// 4.
+// this is a nice title -> This Is a Nice Title
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = [
+    'a',
+    'an',
+    'the',
+    'but',
+    'or',
+    'of',
+    'on',
+    'in',
+    'with',
+    'and',
+  ];
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+
+  return capitalize(titleCase);
+};
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('And this is a nice title'));
 */
